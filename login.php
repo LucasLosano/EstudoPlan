@@ -8,6 +8,7 @@
 
 <html>
 	<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Estudo Plan</title>
@@ -34,7 +35,7 @@
                 let span = document.createElement('span');
                 span.id = 'existe';
                 span.innerHTML = erro;
-                span.style = 'color:red;display:inline-block; margin-top: -30px;';
+                span.className = "text-danger d-inline-block"
                 document.getElementById('fieldset').appendChild(span);
                 
             }
@@ -60,32 +61,29 @@
             }
 
             function montarCadastrar(){
-                let label = document.createElement('label');
-                label.for = "confirmarSenha";
-                label.innerHTML = "Confirmar senha";                
-                document.getElementById('inputs').appendChild(label);
-
-                document.getElementById('inputs').appendChild(document.createElement('br'));
+                let div = document.createElement('div');    
+                div.id = 'divConfirmarSenha';       
+                div.className = 'form-group';     
+                document.getElementById('inputs').appendChild(div);
 
                 let input = document.createElement('input');
                 input.type = 'password';
                 input.id = 'confirmarSenha';
                 input.placeholder = 'Confirmar senha';
-                document.getElementById('inputs').appendChild(input);
-
-                document.getElementById('inputs').appendChild(document.createElement('br'));
+                input.className = 'form-control';
+                document.getElementById('divConfirmarSenha').appendChild(input);
 
                 let btnConfimar = document.createElement('input');
                 btnConfimar.value = 'Confirmar';
                 btnConfimar.id = 'confirmar';
-                btnConfimar.className = 'adicionar';
+                btnConfimar.className = 'btn btn-info';
                 btnConfimar.type = 'button';
                 btnConfimar.onclick = cadastrar;
                 document.getElementById('inputs').appendChild(btnConfimar);  
 
                 let btnVoltar = document.createElement('input');
                 btnVoltar.value = 'Voltar';
-                btnVoltar.className = 'adicionar';
+                btnVoltar.className = 'btn btn-info';
                 btnVoltar.type = 'button';
                 btnVoltar.onclick = () => {window.location.href = 'login.php';};
                 btnVoltar.style = "margin-left:5px;";
@@ -111,22 +109,25 @@
 	</head>
 
 	<body>
-		<div id='topo'>
-            Estudo Plan            
-        </div>
+		<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-info">
+            <a style="font-size: 2.2em;" href="#" class="navbar-brand h1">Estudo Plan</a>
+        </nav>
         <div id='body'>
             <div id='container'>   
-                 <form>
-                    <fieldset id='fieldset'>
-                        <legend>Login</legend>
+                 <form class="px-3 py-2 border border-info">
+                    <fieldset  id='fieldset'>
+                        <legend class="text-info">Login</legend>
                         <div id="inputs">
-                            <label for='email'>E-mail</label><br>
-                            <input type='email' id='email' placeholder='exemplo@gmail.com'><br>
-                            <label for='senha'>Senha</label><br>
-                            <input type='password' id='senha' placeholder='Senha'><br>
+                            <div class="form-group">
+                                <input class="form-control" type='email' id='email' placeholder='E-mail'>
+                            </div>
+                            <div class="form-group">
+                                
+                                <input class="form-control" type='password' id='senha' placeholder='Senha'>
+                            </div>
                         </div>
-                        <input value='Entrar' type='button' onclick='validar()' id='entrar' class='adicionar'><br>     
-                        <input value='Cadastrar-se' type='button' onclick='montarCadastrar()' id='btnCadastrar' class='adicionar'><br>                   
+                        <input value='Entrar' type='button' onclick='validar()' id='entrar' class='btn mx-auto d-block btn-info'>    
+                        <input value='Cadastrar-se' type='button' onclick='montarCadastrar()' id='btnCadastrar' class='btn btn-info btn-sm'>              <br>    
                         
                         <?if(isset($_GET["invalida"]) && $_GET["invalida"]==1){?>
                             <script>erro("E-mail ou senha inválidos")</script>
@@ -138,5 +139,8 @@
                  </form>
             </div>
         </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	</body>
 </html>

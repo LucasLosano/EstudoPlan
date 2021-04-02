@@ -12,6 +12,7 @@
 <html>
 	<head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Estudo Plan</title>
@@ -47,7 +48,7 @@
                 novoInput.type = 'number';
                 novoInput.min = 1;
                 novoInput.value = parseInt(planejado.innerHTML);
-                novoInput.style = "width: 95px; margin:0; padding:0;";                
+                novoInput.className = "d-inline w-25 p-0 m-0 form-control"              
                 planejado.innerHTML = "";
                 planejado.appendChild(novoInput);
 
@@ -57,7 +58,7 @@
                 novoInput2.id = "tempoEstudadoValue" + id;
                 novoInput2.min = 0;
                 novoInput2.value = parseInt(estudado.innerHTML);
-                novoInput2.style = "width: 95px; margin:0; padding:0;";  
+                novoInput2.className = "d-inline w-25 p-0 m-0 form-control"
                 estudado.innerHTML = "";
                 estudado.appendChild(novoInput2);
 
@@ -67,7 +68,7 @@
                 let btnConfimar = document.createElement('input');
                 btnConfimar.value = 'Confirmar';
                 btnConfimar.id = 'confirmar' + id;
-                btnConfimar.className = 'adicionar';
+                btnConfimar.className = 'btn btn-secondary d-block mx-auto mt-5';
                 btnConfimar.type = 'button';
                 btnConfimar.onclick = ()=>{
                     update(id)
@@ -88,52 +89,60 @@
 	</head>
 
 	<body>
-		<div class=" sticky-top bg-info justify-content-center" id='topo'>
-            <span class="d-block pl-2">Estudo Plan</span>
-            <div class="btn-group" id='menu'>
-                    <ul>
-                        <li>
-                            <a class="h-100 btn btn-lg bt-outline-info" href="#">Home</a>
+		<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-info">
+            <a style="font-size: 2.2em;" href="#" class="navbar-brand h1">Estudo Plan</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li style="font-size: 1.5em;" class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
                         </li>
-                        <li>
-                            <a class="h-100 btn btn-lg bt-outline-info" href="adicionar.php">Adicionar</a>
+                        <li style="font-size: 1.5em;" class="nav-item">
+                            <a class="nav-link" href="adicionar.php">Adicionar</a>
                         </li>
-                        <li>
-                            <a class="h-100 btn btn-lg bt-outline-info" href="login.php">Sair</a>
+                        <li style="font-size: 1.5em;" class="nav-item">
+                            <a class="nav-link" href="login.php">Sair<i class="d-inline-block ml-2 fas fa-sign-out-alt"></i></a>
                         </li>
                     </ul>
-                </div>
-        </div>
+            </div>
+        </nav>
         <div id='body'>
-            <div id='container'>   
+            <div class="d-flex justify-content-center flex-wrap">   
                 <?if($posts){?>
                     <? foreach ($posts as $post){ ?>
-                        <div class='conteudo'>
-                            <div class='topo-conteudo'>
-                                <span class = "text-truncate"><?=$post->titulo?></span>
+                        <div style="width:350px" class='card bg-info text-light m-2'>
+                            <div class='card-body'>
+                                <div class="d-flex mb-2">
+                                    <h5 class = "d-inline card-title text-truncate"><?=$post->titulo?></h5>
 
-                                <button value=<?=$post->id_post?> onclick="deletar(value)"></button>
-                            </div>
-                            <div class='corpo-conteudo'>
-                                <div id=<?=$post->id_post?> style="text-align:center;">
-                                    <span>Tempo Planejado : </span><span value=<?=$post->tempo_planejado?> id=<?="'tempoPlanejado" .$post->id_post ."'" ?>><?=' ' . $post->tempo_planejado?> </span> min<br>
-                                    <span>Tempo Estudado  : </span><span value=<?=$post->tempo_estudado?> id=<?="'tempoEstudado" .$post->id_post ."'" ?>><?=' ' . $post->tempo_estudado?> </span> min<br>
+                                    <button class="ml-auto d-inline-block btn btn-danger" value=<?=$post->id_post?> onclick="deletar(value)"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            
+                            
+                                <div class="p-2" id=<?=$post->id_post?>>
+                                    <span>Tempo Planejado: </span><span value=<?=$post->tempo_planejado?> id=<?="'tempoPlanejado" .$post->id_post ."'" ?>><?=' ' . $post->tempo_planejado?> </span> min<br>
+                                    <span>Tempo Estudado: </span><span value=<?=$post->tempo_estudado?> id=<?="'tempoEstudado" .$post->id_post ."'" ?>><?=' ' . $post->tempo_estudado?> </span> min<br>
                                     <div id=<?="'divRemover" .$post->id_post ."'" ?>>
                                         <?if(($post->tempo_planejado-$post->tempo_estudado)<=0){?>
-                                                <span style='color:green; font-size=1.2em;'>Concluído</span><br> 
+                                                <span class="text-center font-weight-bold d-block mt-5 text-dark"'>Concluído</span><br> 
                                         <?}else{?>
-                                            <span class='final'>Tempo Faltando  : </span><?=' ' . ($post->tempo_planejado-$post->tempo_estudado)?> min<br>  
-                                            <input class='small' id=<?='tempo'.$post->id_post?> type='number' min=1>
-                                            <button onclick='validar(value)' value=<?=$post->id_post?> class='adicionar'>Adicionar Tempo</button>
-                                            <button onclick='modelarUpdate(value)' value=<?=$post->id_post?> class='adicionar'>CF</button>
+                                            <span class='final d-block mb-3'>Tempo Faltando: <?=' ' . ($post->tempo_planejado-$post->tempo_estudado)?> min</span><br>  
+                                            <div class="form-group  text-center mb-0">
+                                                <input class='d-inline w-25 p-0 m-0 form-control' id=<?='tempo'.$post->id_post?> type='number' min=1>
+                                                <button onclick='validar(value)' value=<?=$post->id_post?> class='btn btn-secondary'>Adicionar Tempo</button>
+                                                <button onclick='modelarUpdate(value)' value=<?=$post->id_post?> class='btn btn-secondary btn-sm'><i class="fas fa-cogs"></i></button>
+                                            </div>
                                         <?}?>
+                                    
                                     </div>
                                 </div>
                             </div>
                         </div>
                     <?}?>
                 <?}else{?>
-                    <button onclick='window.location.href = "adicionar.php"' class='adicionar bt-grande'>Adicione uma tarefa aqui!</button>
+                    <button onclick='window.location.href = "adicionar.php"' class='btn btn-info btn-lg btn-block'>Adicione uma tarefa aqui!</button>
                 <?}?>
             </div>
         </div>

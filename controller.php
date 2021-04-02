@@ -27,6 +27,7 @@
             header('Location: http://losanoteste.rf.gd/');
         }
     }
+    
     else if($acao == 'novoLogin'){
         $service = new Servico($pdo,null);
         $id = $service->readUsuarios($_GET['email'],$_GET['senha']);
@@ -34,7 +35,7 @@
             header('Location: login.php?invalida=2');
         }
         else{
-            $service->inserirEmail($email,$senha);
+            $service->inserirEmail($_GET['email'],$_GET['senha']);
             header('Location: login.php');
         }
     }
