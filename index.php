@@ -6,18 +6,34 @@
     $_GET = null;
     $acao = 'read';    
     require('controller.php');
-
 ?>
 
 <html>
 	<head>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+        <link rel="stylesheet" href="estilo.css">
+
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Estudo Plan</title>
 
-		<link rel="stylesheet" href="teste.css">
+        <script>
+            $(document).ready(() => {
+                $("input").on("keyup",e =>{
+                    if(e.key == "Enter"){
+                        let id = "#btn" + $(e.target).attr("id").replace('tempo','');
+                        $(id).trigger("click");
+                        console.log($(id))
+                    }
+                })
+            })
+ 
+        </script>
+		
         <script>
             function deletar(id_post){
                 window.location.href = 'controller.php?acao=deletar&id=' + id_post;
@@ -37,7 +53,6 @@
             let update = (id) =>{
                 let tempoPlanejado = document.getElementById("tempoPlanejadoValue" + id).value;
                 let tempoEstudado = document.getElementById("tempoEstudadoValue" + id).value;
-                console.log(id,tempoPlanejado,tempoEstudado);
                 window.location.href = `controller.php?acao=update&id=${id}&tempoPlanejado=${tempoPlanejado}&tempoEstudado=${tempoEstudado}`;
             }
 
@@ -81,7 +96,7 @@
                         let span = document.createElement('span');
                         span.id = 'existe';
                         span.innerHTML = 'Tempo não pode ser vazio';
-                        span.style = 'color:red;display:inline-block; margin-top: -30px;';
+                        span.className = "text-danger d-inline-block mx-auto"
                         document.getElementById(id_post).appendChild(span);
                     }
             }
@@ -101,6 +116,9 @@
                         </li>
                         <li style="font-size: 1.5em;" class="nav-item">
                             <a class="nav-link" href="adicionar.php">Adicionar</a>
+                        </li>
+                        <li style="font-size: 1.5em;" class="nav-item">
+                            <a class="nav-link" href="calendario.php">Calendário</a>
                         </li>
                         <li style="font-size: 1.5em;" class="nav-item">
                             <a class="nav-link" href="login.php">Sair<i class="d-inline-block ml-2 fas fa-sign-out-alt"></i></a>
@@ -130,8 +148,8 @@
                                         <?}else{?>
                                             <span class='final d-block mb-3'>Tempo Faltando: <?=' ' . ($post->tempo_planejado-$post->tempo_estudado)?> min</span><br>  
                                             <div class="form-group  text-center mb-0">
-                                                <input class='d-inline w-25 p-0 m-0 form-control' id=<?='tempo'.$post->id_post?> type='number' min=1>
-                                                <button onclick='validar(value)' value=<?=$post->id_post?> class='btn btn-secondary'>Adicionar Tempo</button>
+                                                <input class='d-inline w-25 p-0 m-0 form-control' id=<?='tempo'.$post->id_post?> value=1 type='number' min=1>
+                                                <button id=<?='btn'.$post->id_post?> onclick='validar(value)' value=<?=$post->id_post?> class='btn btn-secondary'>Adicionar Tempo</button>
                                                 <button onclick='modelarUpdate(value)' value=<?=$post->id_post?> class='btn btn-secondary btn-sm'><i class="fas fa-cogs"></i></button>
                                             </div>
                                         <?}?>

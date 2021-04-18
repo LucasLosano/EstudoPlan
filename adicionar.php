@@ -7,13 +7,26 @@
 
 <html>
 	<head>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Estudo Plan</title>
 
-		<link rel="stylesheet" href="teste.css">
+		<link rel="stylesheet" href="estilo.css">
+
+        <script>
+            $(document).ready(() => {
+                $("#tempo").on("keyup",e =>{
+                    if(e.key == "Enter"){
+                        $("#Adicionar").trigger("click");
+                    }
+                })
+            })
+ 
+        </script>
+
         <script>
             function adicionar(){
                 titulo = document.getElementById('titulo').value;
@@ -66,6 +79,9 @@
                         </li>
                         <li style="font-size: 1.5em;" class="nav-item active">
                             <a class="nav-link" href="#">Adicionar</a>
+                        </li>
+                        <li style="font-size: 1.5em;" class="nav-item">
+                            <a class="nav-link" href="calendario.php">Calendário</a>
                         </li>
                         <li style="font-size: 1.5em;" class="nav-item">
                             <a class="nav-link" href="login.php">Sair<i class="d-inline-block ml-2 fas fa-sign-out-alt"></i></a>

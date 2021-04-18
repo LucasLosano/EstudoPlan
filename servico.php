@@ -1,4 +1,6 @@
 <?php
+    
+    date_default_timezone_set("America/Sao_Paulo");
     class Servico{
         private $conexao = null;
         private $post = null;
@@ -7,18 +9,31 @@
             $this->conexao = $conexao;
             $this->post = $post;
         }
-        //Retorna todos os posts
+
+        //Retorna todos os posts de um usuario
         public function read($id_usuario){
-            $query = 'SELECT p.titulo,p.tempo_planejado,p.tempo_estudado,p.id_post from tb_usuario as u  INNER JOIN tb_post as p on(u.id_usuario = p.id_usuario) where p.id_usuario = ?;';
+            $query = 'SELECT p.titulo,p.tempo_planejado,p.tempo_estudado,p.id_post from tb_usuario as u  INNER JOIN tb_post as p on(u.id_usuario = p.id_usuario) where p.id_usuario = ? && p.ativo = 1;';
             $stmt = $this->conexao->prepare($query);
             $stmt->bindValue(1,$id_usuario);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
 
+        //Retorna todos os updates de um usuario
+        public function readUpd($id_usuario){
+            
+            
+            $query = 'SELECT sum(u.tempo_upd) as tempo_upd, u.date_upd, p.titulo from tb_upd as u LEFT JOIN tb_post as p on(u.id_post = p.id_post) where u.id_usuario = :id group by u.date_upd, p.titulo';
+            
+            $stmt = $this->conexao->prepare($query);
+            $stmt->bindValue("id",$id_usuario);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
+
         //Deleta um post
         public function deletar($id_post){
-            $query = 'DELETE FROM tb_post where id_post = ?;';
+            $query = 'update tb_post set ativo = 0 where id_post = ?;';
             $stmt = $this->conexao->prepare($query);
             $stmt->bindValue(1,$id_post);
             $stmt->execute();
@@ -76,6 +91,17 @@
             $stmt = $this->conexao->prepare($query);
             $stmt->bindValue(2,$id_post);
             $stmt->bindValue(1,$tempo);
+            $stmt->execute();
+        }
+
+        public function adicionarUpd($id_post,$id_usuario,$tempo){
+            $data = date("Y-m-d");
+            $query = 'insert into tb_upd(id_post, id_usuario, tempo_upd, date_upd) values(?,?,?,?)';
+            $stmt = $this->conexao->prepare($query);
+            $stmt->bindValue(1,$id_post);
+            $stmt->bindValue(2,$id_usuario);
+            $stmt->bindValue(3,$tempo);
+            $stmt->bindValue(4,$data);
             $stmt->execute();
         }
     }
